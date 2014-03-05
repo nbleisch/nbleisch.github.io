@@ -1,0 +1,198 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/page.css" rel="stylesheet">
+    <style>
+      canvas{
+        border: 1px solid;
+        cursor: none;
+      }
+    </style>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-1.11.0.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
+
+  </head>
+  <body>
+
+        <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h2 class="masthead-brand">NullZeroVoid</h2>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Game</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Forum</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="inner cover toggable">
+            <h1 class="cover-heading">Experience the sandy spacebox</h1>
+            <p class="lead">This game is about space and craft and battles</p>
+            <p class="lead">
+              <a href="#" id="playButton" class="btn btn-lg btn-default">Play</a>
+              <script type="text/javascript">
+                $('#playButton').click(function() {
+                  $('.toggable').toggle();
+                  return false;
+                });
+              </script>
+            </p>
+          </div>
+          <div class="inner cover gamepanel toggable" style="display:none">
+            <p>FPS:<span id="fps"></span></p>
+            <canvas id="myCanvas" width="700" height="500"></canvas>
+           </div> 
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Template provided by <a href="http://getbootstrap.com">Bootstrap</a></p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    
+    
+    <script type="text/javascript">
+
+
+      //init
+    window.requestAnimFrame = (function(){
+      return  window.requestAnimationFrame       || 
+              window.webkitRequestAnimationFrame || 
+              window.mozRequestAnimationFrame    || 
+              window.oRequestAnimationFrame      || 
+              window.msRequestAnimationFrame     || 
+              function(/* function */ callback, /* DOMElement */ element){
+                window.setTimeout(callback, 1000 / 60);
+              };
+    })();
+
+      
+      var canvas = document.getElementById('myCanvas');
+      var fpsCounter = document.getElementById('fps');
+      var fps = 0, now, lastUpdate = (new Date)*1-1;
+      
+      var context = canvas.getContext('2d');
+      var player = {
+        x : canvas.width / 2,
+        y : canvas.height / 2,
+        radius : 20,
+        direction : 0
+      }
+
+   
+
+      
+
+      setInterval(function(){doNextStep();}, 50);
+      setInterval(function(){fpsCounter.innerHTML=fps.toFixed(0);}, 500);
+      animate();
+      function animate(){
+        requestAnimFrame(animate);
+        var thisFrameFPS = 1000 / ((now=new Date) - lastUpdate);
+          if (now!=lastUpdate){
+          fps += (thisFrameFPS - fps) / 20;
+           lastUpdate = now*1 -1;
+        }
+        
+        render(context);
+      }
+
+      function render(context){
+        //reset current canvas
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        drawPlayer(context);
+      }
+
+      function drawPlayer(context){
+        context.beginPath();
+        context.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
+        context.fillStyle = 'green';
+        context.fill();
+        context.lineWidth = 1;
+        context.strokeStyle = '#FFFFFF';
+        context.stroke();
+        context.beginPath();
+        //render cursor
+        lineX1 = player.x + Math.cos(Math.PI/180 * player.direction)*player.radius;
+        lineY1 = player.y + Math.sin(Math.PI/180 * player.direction)*player.radius;
+        context.moveTo(lineX1,lineY1);
+        context.lineTo(mousePos.x, mousePos.y);
+        context.arc(mousePos.x, mousePos.y,5, 0, 2 * Math.PI, false);
+        context.stroke();
+      }
+
+    </script>
+
+    <script type="text/javascript">
+      //input processor
+      var isMoving=false;
+      var mousePos = {
+            x: 0,
+            y: 0
+        };
+
+      window.addEventListener("keydown",onKeyDown);
+      window.addEventListener("keyup",onKeyUp);
+
+      canvas.addEventListener('mousemove', function(event) {
+        mousePos.x = event.clientX - $('#myCanvas').offset().left;
+        mousePos.y = event.clientY - $('#myCanvas').offset().top;
+        var a = (player.x - mousePos.x);
+        var b = (player.y - mousePos.y);
+        var c = Math.sqrt(a*a + b*b);
+        a = a/c;
+        b = b/c;
+        player.direction = Math.atan(b / a) * 180/Math.PI;
+        if(mousePos.x < player.x){
+          //alert("negativ");
+          player.direction += 180;
+        }
+
+      }, false);
+
+      function onKeyDown(e){
+        if (e.keyCode == '38') {
+        // up arrow
+          isMoving=true;
+        }
+      }
+
+      function onKeyUp(e){
+        if (e.keyCode == '38') {
+          // up arrow
+          isMoving=false;
+        }
+      }
+    </script>
+
+
+    <script type="text/javascript">
+      function doNextStep(){
+        if(isMoving){
+          player.x += Math.cos(Math.PI/180 * player.direction)*5;
+          player.y += Math.sin(Math.PI/180 * player.direction)*5;
+        }
+      }
+    </script>
+
+  </body>
+</html>
