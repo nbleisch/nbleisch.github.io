@@ -9,7 +9,7 @@
     var self = this;
 
     this.registerMouseListener = function(component){
-      component.addEventListener('mousemove', function(event) {
+      window.addEventListener('mousemove', function(event) {
         mousePos.x = event.clientX - $(component).offset().left;
         mousePos.y = event.clientY - $(component).offset().top;
         var a = (player.x - mousePos.x);

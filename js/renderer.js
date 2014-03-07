@@ -23,17 +23,18 @@
 
       function render(context){
         //reset current canvas
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        //for (var mapObject in mapObjects){
-          drawObject(context, player);
-          drawObject(context, staticObject1);
-        //}
+        context.clearRect(0, 0, viewport.width, viewport.height);
+        viewport.x = player.x - viewport.width/2; //- player.radius/2;
+        viewport.y = player.y - viewport.height/2; //- player.radius;
+        for (var i = 0; i < mapObjects.length; i++){
+          drawObject(context, mapObjects[i]);
+        }
         drawCursor(context, player);
       }
 
       function drawObject(context, object){
         context.beginPath();
-        context.arc(object.x, object.y, object.radius, 0, 2 * Math.PI, false);
+        context.arc(object.x - viewport.x, object.y - viewport.y, object.radius, 0, 2 * Math.PI, false);
         context.fillStyle = object.color;
         context.fill();
         context.lineWidth = 1;
@@ -44,10 +45,11 @@
       function drawCursor(context, object){
         context.beginPath();
         //render cursor
-        lineX1 = object.x + Math.cos(Math.PI/180 * object.orientation)*object.radius;
-        lineY1 = object.y + Math.sin(Math.PI/180 * object.orientation)*object.radius;
+        lineX1 = object.x - viewport.x + Math.cos(Math.PI/180 * object.orientation)*object.radius ;
+        lineY1 = object.y - viewport.y + Math.sin(Math.PI/180 * object.orientation)*object.radius ;
+        context.strokeStyle = "#FF0000";
         context.moveTo(lineX1,lineY1);
-        context.lineTo(mousePos.x, mousePos.y);
-        context.arc(mousePos.x, mousePos.y,5, 0, 2 * Math.PI, false);
+        context.lineTo(mousePos.x - viewport.x, mousePos.y -  viewport.y);
+        context.arc(mousePos.x - viewport.x, mousePos.y - viewport.y,5, 0, 2 * Math.PI, false);
         context.stroke();
       }

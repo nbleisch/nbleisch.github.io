@@ -84,12 +84,21 @@
 
     var staticObject1 = new GameObject();
     staticObject1.radius = 40;
-    staticObject1.x = 300;
-    staticObject1.y = 400;
+    staticObject1.x = 120;
+    staticObject1.y = 200;
     staticObject1.color = "#FF0000";
 
     var mapObjects = [player, staticObject1];
 
+    var viewport = {
+      x : 0,
+      y : 0,
+      width : 0,
+      height : 0
+    };
+    viewport.width = canvas.width;
+    viewport.height = canvas.height;
+    
     /*player.x = canvas.width / 2;
     player.y = canvas.height / 2;
     player.radius = 20;
