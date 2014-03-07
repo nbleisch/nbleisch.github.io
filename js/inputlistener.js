@@ -9,16 +9,16 @@
     var self = this;
 
     this.registerMouseListener = function(component){
-      window.addEventListener('mousemove', function(event) {
+      component.addEventListener('mousemove', function(event) {
         mousePos.x = event.clientX - $(component).offset().left;
         mousePos.y = event.clientY - $(component).offset().top;
-        var a = (player.x - mousePos.x);
-        var b = (player.y - mousePos.y);
+        var a = (viewport.width/2 - mousePos.x);
+        var b = (viewport.height/2 - mousePos.y);
         var c = Math.sqrt(a*a + b*b);
         a = a/c;
         b = b/c;
         player.orientation = Math.atan(b / a) * 180/Math.PI;
-        if(mousePos.x < player.x){
+        if(mousePos.x < (player.x - viewport.x)){
           player.orientation += 180;
         }
       }, false);

@@ -49,7 +49,7 @@
         lineY1 = object.y - viewport.y + Math.sin(Math.PI/180 * object.orientation)*object.radius ;
         context.strokeStyle = "#FF0000";
         context.moveTo(lineX1,lineY1);
-        context.lineTo(mousePos.x - viewport.x, mousePos.y -  viewport.y);
-        context.arc(mousePos.x - viewport.x, mousePos.y - viewport.y,5, 0, 2 * Math.PI, false);
+        context.lineTo(mousePos.x, mousePos.y);
+        context.arc(mousePos.x, mousePos.y,5, 0, 2 * Math.PI, false);
         context.stroke();
       }
