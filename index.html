@@ -79,8 +79,8 @@
     var canvas = document.getElementById('myCanvas');
     var player = new GameObject();
     player.radius = 20;
-    player.x = 50;
-    player.y = 80;
+    player.x = 10;
+    player.y = 10;
 
     var staticObject1 = new GameObject();
     staticObject1.radius = 40;
@@ -88,7 +88,26 @@
     staticObject1.y = 200;
     staticObject1.color = "#FF0000";
 
-    var mapObjects = [player, staticObject1];
+    var staticObject2 = new GameObject();
+    staticObject2.radius = 40;
+    staticObject2.x = 200;
+    staticObject2.y = 10;
+    staticObject2.color = "#0000FF";
+
+    var staticObject3 = new GameObject();
+    staticObject3.radius = 20;
+    staticObject3.x = 10;
+    staticObject3.y = 300;
+    staticObject3.color = "#FFFF00";
+
+    var staticObject4 = new GameObject();
+    staticObject4.radius = 60;
+    staticObject4.x = 90;
+    staticObject4.y = 100;
+    staticObject4.color = "#00FF00";
+
+
+    var mapObjects = [player, staticObject1, staticObject2, staticObject3,staticObject4];
 
     var viewport = {
       x : 0,
