@@ -15,8 +15,12 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.11.0.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/gameobjects.js"></script>
     <script src="js/bootstrap.min.js"></script>
-
+    <script src="js/inputlistener.js"></script>
+    <script src="js/gameengine.js"></script>
+    <script src="js/renderer.js"></script>
+    
 
   </head>
   <body>
@@ -46,6 +50,7 @@
               <script type="text/javascript">
                 $('#playButton').click(function() {
                   $('.toggable').toggle();
+                  startGame();
                   return false;
                 });
               </script>
@@ -71,127 +76,45 @@
     
     
     <script type="text/javascript">
+    var canvas = document.getElementById('myCanvas');
+    var player = new GameObject();
+    player.radius = 20;
+    player.x = 50;
+    player.y = 80;
+
+    var staticObject1 = new GameObject();
+    staticObject1.radius = 40;
+    staticObject1.x = 300;
+    staticObject1.y = 400;
+    staticObject1.color = "#FF0000";
+
+    var mapObjects = [player, staticObject1];
+
+    /*player.x = canvas.width / 2;
+    player.y = canvas.height / 2;
+    player.radius = 20;
+    player.direction = 0;
+    player.isMoving = false;
+    */  
+
+    function startGame(){
+      var inputlistener = new InputListener();
+      inputlistener.registerMouseListener(canvas);
+      var gameEngine = new GameEngine();
+      gameEngine.start();
+    }
 
 
-      //init
-    window.requestAnimFrame = (function(){
-      return  window.requestAnimationFrame       || 
-              window.webkitRequestAnimationFrame || 
-              window.mozRequestAnimationFrame    || 
-              window.oRequestAnimationFrame      || 
-              window.msRequestAnimationFrame     || 
-              function(/* function */ callback, /* DOMElement */ element){
-                window.setTimeout(callback, 1000 / 60);
-              };
-    })();
-
-      
-      var canvas = document.getElementById('myCanvas');
       var fpsCounter = document.getElementById('fps');
       var fps = 0, now, lastUpdate = (new Date)*1-1;
       
       var context = canvas.getContext('2d');
-      var player = {
-        x : canvas.width / 2,
-        y : canvas.height / 2,
-        radius : 20,
-        direction : 0
-      }
-
-   
+ 
 
       
-
-      setInterval(function(){doNextStep();}, 50);
       setInterval(function(){fpsCounter.innerHTML=fps.toFixed(0);}, 500);
       animate();
-      function animate(){
-        requestAnimFrame(animate);
-        var thisFrameFPS = 1000 / ((now=new Date) - lastUpdate);
-          if (now!=lastUpdate){
-          fps += (thisFrameFPS - fps) / 20;
-           lastUpdate = now*1 -1;
-        }
-        
-        render(context);
-      }
 
-      function render(context){
-        //reset current canvas
-        context.clearRect(0, 0, canvas.width, canvas.height);
-        drawPlayer(context);
-      }
-
-      function drawPlayer(context){
-        context.beginPath();
-        context.arc(player.x, player.y, player.radius, 0, 2 * Math.PI, false);
-        context.fillStyle = 'green';
-        context.fill();
-        context.lineWidth = 1;
-        context.strokeStyle = '#FFFFFF';
-        context.stroke();
-        context.beginPath();
-        //render cursor
-        lineX1 = player.x + Math.cos(Math.PI/180 * player.direction)*player.radius;
-        lineY1 = player.y + Math.sin(Math.PI/180 * player.direction)*player.radius;
-        context.moveTo(lineX1,lineY1);
-        context.lineTo(mousePos.x, mousePos.y);
-        context.arc(mousePos.x, mousePos.y,5, 0, 2 * Math.PI, false);
-        context.stroke();
-      }
-
-    </script>
-
-    <script type="text/javascript">
-      //input processor
-      var isMoving=false;
-      var mousePos = {
-            x: 0,
-            y: 0
-        };
-
-      window.addEventListener("keydown",onKeyDown);
-      window.addEventListener("keyup",onKeyUp);
-
-      canvas.addEventListener('mousemove', function(event) {
-        mousePos.x = event.clientX - $('#myCanvas').offset().left;
-        mousePos.y = event.clientY - $('#myCanvas').offset().top;
-        var a = (player.x - mousePos.x);
-        var b = (player.y - mousePos.y);
-        var c = Math.sqrt(a*a + b*b);
-        a = a/c;
-        b = b/c;
-        player.direction = Math.atan(b / a) * 180/Math.PI;
-        if(mousePos.x < player.x){
-          //alert("negativ");
-          player.direction += 180;
-        }
-
-      }, false);
-
-      function onKeyDown(e){
-        if (e.keyCode == '38') {
-        // up arrow
-          isMoving=true;
-        }
-      }
-
-      function onKeyUp(e){
-        if (e.keyCode == '38') {
-          // up arrow
-          isMoving=false;
-        }
-      }
-    </script>
-
-
-    <script type="text/javascript">
-      function doNextStep(){
-        if(isMoving){
-          player.x += Math.cos(Math.PI/180 * player.direction)*5;
-          player.y += Math.sin(Math.PI/180 * player.direction)*5;
-        }
-      }
     </script>
 
   </body>
