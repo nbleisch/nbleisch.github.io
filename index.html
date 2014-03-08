@@ -78,9 +78,14 @@
     <script type="text/javascript">
     var canvas = document.getElementById('myCanvas');
     var player = new GameObject();
-    player.radius = 20;
+    player.radius = 15;
     player.x = 10;
     player.y = 10;
+    player.image = new Image();
+    player.image.ready = true;
+    player.orientation = 270;
+    player.image.src = "gfx/sprites/character.png";
+
 
     var staticObject1 = new GameObject();
     staticObject1.radius = 40;

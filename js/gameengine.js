@@ -6,33 +6,34 @@
 		}
 
 		this.doNextStep = function(){
-		  for (var i = 0; i < mapObjects.length; i++){         
-		      if(mapObjects[i].moveDirection!=null){
+		  for (var i = 0; i < mapObjects.length; i++){
+		  	var mapobject =  mapObjects[i];      
+		      if(mapobject.moveDirection!=null){
 		      	var movementDeltaX=0;
 			  	var movementDeltaY=0;
 
-		      	if(mapObjects[i].moveDirection == "forward"){
-		        	movementDeltaX += Math.cos(Math.PI/180 * mapObjects[i].orientation)*mapObjects[i].velocity;
-		        	movementDeltaY += Math.sin(Math.PI/180 * mapObjects[i].orientation)*mapObjects[i].velocity;
-		    	}else if(mapObjects[i].moveDirection == "backward"){
-		        	movementDeltaX -= Math.cos(Math.PI/180 * mapObjects[i].orientation)*mapObjects[i].velocity;
-		        	movementDeltaY -= Math.sin(Math.PI/180 * mapObjects[i].orientation)*mapObjects[i].velocity;
-		    	}else if(mapObjects[i].moveDirection == "left"){
-		        	movementDeltaX += Math.cos(Math.PI/180 * (mapObjects[i].orientation - 90))*mapObjects[i].velocity;
-		        	movementDeltaY += Math.sin(Math.PI/180 * (mapObjects[i].orientation - 90))*mapObjects[i].velocity;
-		    	}else if(mapObjects[i].moveDirection == "right"){
-		        	movementDeltaX += Math.cos(Math.PI/180 * (mapObjects[i].orientation + 90))*mapObjects[i].velocity;
-		        	movementDeltaY += Math.sin(Math.PI/180 * (mapObjects[i].orientation + 90))*mapObjects[i].velocity;
+		      	if(mapobject.moveDirection == "forward"){
+		        	movementDeltaX += Math.cos(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
+		        	movementDeltaY += Math.sin(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
+		    	}else if(mapobject.moveDirection == "backward"){
+		        	movementDeltaX -= Math.cos(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
+		        	movementDeltaY -= Math.sin(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
+		    	}else if(mapobject.moveDirection == "left"){
+		        	movementDeltaX += Math.cos(Math.PI/180 * (mapobject.orientation - 90))*mapobject.velocity;
+		        	movementDeltaY += Math.sin(Math.PI/180 * (mapobject.orientation - 90))*mapobject.velocity;
+		    	}else if(mapobject.moveDirection == "right"){
+		        	movementDeltaX += Math.cos(Math.PI/180 * (mapobject.orientation + 90))*mapobject.velocity;
+		        	movementDeltaY += Math.sin(Math.PI/180 * (mapobject.orientation + 90))*mapobject.velocity;
 		    	}
-		    	var nextPositionX = mapObjects[i].x + movementDeltaX;
-		    	var nextPositionY = mapObjects[i].y + movementDeltaY;
+		    	var nextPositionX = mapobject.x + movementDeltaX;
+		    	var nextPositionY = mapobject.y + movementDeltaY;
 		    	//lets do some collision detection
 		    	var isCollided = false;
 		    	for (var j = 0; j < mapObjects.length; j++){
 		    		if(i!=j){
 		    			var dx = nextPositionX - mapObjects[j].x;
 		    			var dy = nextPositionY - mapObjects[j].y;
-		    			var combinedRadius = (mapObjects[i].radius + mapObjects[j].radius);
+		    			var combinedRadius = (mapobject.radius + mapObjects[j].radius);
 		    			//optimized pythagoras
 		    			if(((dx * dx) + (dy * dy)) < (combinedRadius * combinedRadius)){
 		    				isCollided=true;
@@ -40,9 +41,26 @@
 		    		}
 		    	}
 		    	if(!isCollided){
-		    		mapObjects[i].x = nextPositionX;
-		    		mapObjects[i].y = nextPositionY;
+		    		mapobject.x = nextPositionX;
+		    		mapobject.y = nextPositionY;
 		    	}
+		       }
+		       if(mapobject.orientation!=mapobject.targetedOrientation){
+		       		var difference = mapobject.orientation-mapobject.targetedOrientation;
+		       		if(Math.abs(difference)<= mapobject.rotationVelocity){
+		       			mapobject.orientation=mapobject.targetedOrientation;
+		       		}else{
+		       			if((difference + 360)%360>180){
+		       				mapobject.orientation+=mapobject.rotationVelocity;
+		       			}else{
+		       				mapobject.orientation-=mapobject.rotationVelocity;
+		       			}
+		       		}
+		       		if(mapobject.orientation<0){
+		       			mapobject.orientation = 360 + mapobject.orientation;
+		       		}else if(mapobject.orientation>360){
+		       			mapobject.orientation%=360;
+		       		}
 		       }
 	        }
 	    }

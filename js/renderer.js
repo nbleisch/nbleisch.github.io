@@ -34,12 +34,21 @@
 
       function drawObject(context, object){
         context.beginPath();
-        context.arc(object.x - viewport.x, object.y - viewport.y, object.radius, 0, 2 * Math.PI, false);
-        context.fillStyle = object.color;
-        context.fill();
-        context.lineWidth = 1;
-        context.strokeStyle = '#FFFFFF';
-        context.stroke();
+        if(object.image != null && object.image.ready){
+            context.save();
+            context.translate((object.x - viewport.x),(object.y - viewport.y));
+            context.rotate((object.orientation + 10)*Math.PI/180);
+            context.translate(-(object.x - viewport.x) ,-(object.y - viewport.y));
+            context.drawImage(object.image,object.x - viewport.x-15,object.y - viewport.y-20,41, 41);
+            context.restore();
+        }else{
+          context.arc(object.x - viewport.x, object.y - viewport.y, object.radius, 0, 2 * Math.PI, false);
+          context.fillStyle = object.color;
+          context.fill();
+          context.lineWidth = 1;
+          context.strokeStyle = '#FFFFFF';
+          context.stroke();
+        }
       }
 
       function drawCursor(context, object){

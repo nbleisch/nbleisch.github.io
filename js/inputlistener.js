@@ -17,9 +17,12 @@
         var c = Math.sqrt(a*a + b*b);
         a = a/c;
         b = b/c;
-        player.orientation = Math.atan(b / a) * 180/Math.PI;
+        player.targetedOrientation = Math.abs(Math.atan(b / a) * 180/Math.PI);
         if(mousePos.x < (player.x - viewport.x)){
-          player.orientation += 180;
+          player.targetedOrientation = Math.abs(180 - player.targetedOrientation);
+        }
+        if(mousePos.y < (player.y - viewport.y)){
+          player.targetedOrientation = Math.abs(360 - player.targetedOrientation);
         }
       }, false);
     }
