@@ -13,17 +13,17 @@
 			  	var movementDeltaY=0;
 
 		      	if(mapobject.moveDirection == "forward"){
-		        	movementDeltaX += Math.cos(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
-		        	movementDeltaY += Math.sin(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
+		        	movementDeltaX += Math.cos(degreesToRadiant * mapobject.orientation)*mapobject.velocity;
+		        	movementDeltaY += Math.sin(degreesToRadiant * mapobject.orientation)*mapobject.velocity;
 		    	}else if(mapobject.moveDirection == "backward"){
-		        	movementDeltaX -= Math.cos(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
-		        	movementDeltaY -= Math.sin(Math.PI/180 * mapobject.orientation)*mapobject.velocity;
+		        	movementDeltaX -= Math.cos(degreesToRadiant * mapobject.orientation)*mapobject.velocity;
+		        	movementDeltaY -= Math.sin(degreesToRadiant * mapobject.orientation)*mapobject.velocity;
 		    	}else if(mapobject.moveDirection == "left"){
-		        	movementDeltaX += Math.cos(Math.PI/180 * (mapobject.orientation - 90))*mapobject.velocity;
-		        	movementDeltaY += Math.sin(Math.PI/180 * (mapobject.orientation - 90))*mapobject.velocity;
+		        	movementDeltaX += Math.cos(degreesToRadiant * (mapobject.orientation - 90))*mapobject.velocity;
+		        	movementDeltaY += Math.sin(degreesToRadiant * (mapobject.orientation - 90))*mapobject.velocity;
 		    	}else if(mapobject.moveDirection == "right"){
-		        	movementDeltaX += Math.cos(Math.PI/180 * (mapobject.orientation + 90))*mapobject.velocity;
-		        	movementDeltaY += Math.sin(Math.PI/180 * (mapobject.orientation + 90))*mapobject.velocity;
+		        	movementDeltaX += Math.cos(degreesToRadiant * (mapobject.orientation + 90))*mapobject.velocity;
+		        	movementDeltaY += Math.sin(degreesToRadiant * (mapobject.orientation + 90))*mapobject.velocity;
 		    	}
 		    	var nextPositionX = mapobject.x + movementDeltaX;
 		    	var nextPositionY = mapobject.y + movementDeltaY;

@@ -76,6 +76,7 @@
     
     
     <script type="text/javascript">
+    var degreesToRadiant = Math.PI/180;
     var canvas = document.getElementById('myCanvas');
     var player = new GameObject();
     player.radius = 15;
@@ -84,7 +85,8 @@
     player.image = new Image();
     player.image.ready = true;
     player.orientation = 270;
-    player.image.src = "gfx/sprites/character.png";
+    player.image.src = "gfx/sprites/character_moving.png";
+    setInterval(function(){player.animationIndex= (player.animationIndex+1)%8;}, 100);
 
 
     var staticObject1 = new GameObject();

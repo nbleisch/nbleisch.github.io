@@ -1,3 +1,5 @@
+    
+
       //init
     window.requestAnimFrame = (function(){
       return  window.requestAnimationFrame       || 
@@ -35,12 +37,11 @@
       function drawObject(context, object){
         context.beginPath();
         if(object.image != null && object.image.ready){
-            context.save();
-            context.translate((object.x - viewport.x),(object.y - viewport.y));
-            context.rotate((object.orientation + 10)*Math.PI/180);
-            context.translate(-(object.x - viewport.x) ,-(object.y - viewport.y));
-            context.drawImage(object.image,object.x - viewport.x-15,object.y - viewport.y-20,41, 41);
-            context.restore();
+            if(object.moveDirection==null){
+              drawSprite(object.image,object.x - viewport.x, object.y - viewport.y, (object.orientation - 90)*degreesToRadiant, 1, 0, 0, 46, 42);
+            }else{
+              drawSprite(object.image,object.x - viewport.x, object.y - viewport.y, (object.orientation - 90)*degreesToRadiant, 1, object.animationIndex * 48, 0, 46, 42);
+            }
         }else{
           context.arc(object.x - viewport.x, object.y - viewport.y, object.radius, 0, 2 * Math.PI, false);
           context.fillStyle = object.color;
@@ -51,11 +52,21 @@
         }
       }
 
+      function drawSprite(imageObject, x, y, rotation, scale, spriteLocationX, spriteLocationY, spriteWidth, spriteHeight){
+        context.save();
+        context.translate(x, y);
+        context.rotate(rotation);
+        context.scale(scale, scale);
+        context.drawImage(imageObject, spriteLocationX, spriteLocationY, spriteWidth, spriteHeight, -spriteWidth/2, -spriteHeight/2, spriteWidth,spriteHeight);
+        context.restore();
+      }
+
+
       function drawCursor(context, object){
         context.beginPath();
         //render cursor
-        lineX1 = object.x - viewport.x + Math.cos(Math.PI/180 * object.orientation)*object.radius ;
-        lineY1 = object.y - viewport.y + Math.sin(Math.PI/180 * object.orientation)*object.radius ;
+        lineX1 = object.x - viewport.x //+ Math.cos(Math.PI/180 * object.orientation)*object.radius ;
+        lineY1 = object.y - viewport.y; //+ Math.sin(Math.PI/180 * object.orientation)*object.radius ;
         context.strokeStyle = "#FF0000";
         context.moveTo(lineX1,lineY1);
         context.lineTo(mousePos.x, mousePos.y);

@@ -1,6 +1,13 @@
+GeometricType = {
+    CIRCLE : 0,
+    TRIANGLE : 1,
+    COMPLEX : 2
+}
+
 function GameObject(){
-	this.x = 0;
-	this.y = 0;
+	this.X = 0;
+	this.Y = 0;
+	this.geometricType = GeometricType.CIRCLE;
 	this.color = "#FFFFFF";
 	this.radius = 0;
 	this.orientation = 0;
@@ -9,4 +16,5 @@ function GameObject(){
 	this.velocity = 5; //units per tick
 	this.moveDirection = null;
 	this.image = null;
+	this.animationIndex=0;
 }
