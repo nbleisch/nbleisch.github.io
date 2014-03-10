@@ -37,6 +37,7 @@
 		    			//optimized pythagoras
 		    			if(((dx * dx) + (dy * dy)) < (combinedRadius * combinedRadius)){
 		    				isCollided=true;
+		    				break;
 		    			}
 		    		}
 		    	}

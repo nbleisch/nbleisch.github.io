@@ -20,8 +20,6 @@
     <script src="js/inputlistener.js"></script>
     <script src="js/gameengine.js"></script>
     <script src="js/renderer.js"></script>
-    
-
   </head>
   <body>
 
@@ -71,12 +69,10 @@
       </div>
 
     </div>
-
-
-    
     
     <script type="text/javascript">
     var degreesToRadiant = Math.PI/180;
+    var radiantToDegrees = 180/Math.PI;
     var canvas = document.getElementById('myCanvas');
     var player = new GameObject();
     player.radius = 15;
@@ -125,13 +121,6 @@
     viewport.width = canvas.width;
     viewport.height = canvas.height;
     
-    /*player.x = canvas.width / 2;
-    player.y = canvas.height / 2;
-    player.radius = 20;
-    player.direction = 0;
-    player.isMoving = false;
-    */  
-
     function startGame(){
       var inputlistener = new InputListener();
       inputlistener.registerMouseListener(canvas);

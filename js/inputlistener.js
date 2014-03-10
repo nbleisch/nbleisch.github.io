@@ -14,10 +14,7 @@
         mousePos.y = event.clientY - $(component).offset().top;
         var a = (viewport.width/2 - mousePos.x);
         var b = (viewport.height/2 - mousePos.y);
-        var c = Math.sqrt(a*a + b*b);
-        a = a/c;
-        b = b/c;
-        player.targetedOrientation = Math.abs(Math.atan(b / a) * 180/Math.PI);
+        player.targetedOrientation = Math.abs(Math.atan(b / a) * radiantToDegrees);
         if(mousePos.x < (player.x - viewport.x)){
           player.targetedOrientation = Math.abs(180 - player.targetedOrientation);
         }
@@ -27,11 +24,8 @@
       }, false);
     }
 
-
       window.addEventListener("keydown",onKeyDown);
       window.addEventListener("keyup",onKeyUp);
-
-      
 
       function onKeyDown(e){
          if (e.keyCode == '87' || e.keyCode == '38') { //w and arrow up
